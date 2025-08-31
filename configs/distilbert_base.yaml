@@ -1,0 +1,27 @@
+experiment:
+  name: "distilbert_base_experiment"  
+  description: "DistilBERT Base model for sentiment analysis"
+  seed: 42
+
+model:
+  type: "distilbert"
+  name: "distilbert-base-uncased"
+  num_labels: 3
+  dropout_prob: 0.1
+
+data:
+  train_path: "dataset/train"
+  eval_path: "dataset/test/SemEval2017-task4-test.subtask-A.english.txt"
+  max_length: 128
+
+training:
+  batch_size: 24  # Can use larger batch size due to smaller model
+  learning_rate: 3e-5  # Slightly higher LR for DistilBERT
+  weight_decay: 0.01
+  num_epochs: 4  # May need more epochs due to smaller capacity
+  warmup_proportion: 0.1
+  max_grad_norm: 1.0
+
+output:
+  output_dir: "experiments/distilbert_base"
+  save_best_only: true

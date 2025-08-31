@@ -1,0 +1,27 @@
+experiment:
+  name: "bertweet_base_experiment"
+  description: "BERTweet Base model for sentiment analysis"
+  seed: 42
+
+model:
+  type: "bertweet"
+  name: "vinai/bertweet-base"
+  num_labels: 3
+  dropout_prob: 0.3
+
+data:
+  train_path: "dataset/train"
+  eval_path: "dataset/test/SemEval2017-task4-test.subtask-A.english.txt"
+  max_length: 128
+
+training:
+  batch_size: 16
+  learning_rate: 2e-5
+  weight_decay: 0.01
+  num_epochs: 3
+  warmup_proportion: 0.1
+  max_grad_norm: 1.0
+
+output:
+  output_dir: "experiments/bertweet_base"
+  save_best_only: true
