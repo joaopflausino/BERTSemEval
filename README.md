@@ -7,7 +7,7 @@ A comprehensive framework for comparing transformer models on sentiment analysis
 ```
 BERTSemEval/
 ├── src/
-│   ├── models/          # Model implementations (BERT, RoBERTa, DistilBERT, ELECTRA)
+│   ├── models/          # Model implementations (BERT, RoBERTa, DistilBERT, ELECTRA, BERTweet)
 │   ├── data/            # Data loading and preprocessing
 │   ├── training/        # Training utilities with ROCm support
 │   ├── evaluation/      # Model evaluation and comparison
@@ -17,6 +17,10 @@ BERTSemEval/
 ├── notebooks/           # Jupyter notebooks for analysis
 └── dataset/            # SemEval dataset (train/test splits)
 ```
+## To Do List
+- make a better preprocessing
+- make a data analysis in all of the data
+- validate results with other projects and check the reliability of the model
 
 ## 🚀 Quick Start
 
@@ -90,6 +94,7 @@ python compare_models.py --experiments bert_base roberta_base distilbert_base --
 | RoBERTa Base | `configs/roberta_base.yaml` | RoBERTa-base model |
 | DistilBERT | `configs/distilbert_base.yaml` | Distilled BERT (faster, smaller) |
 | ELECTRA Base | `configs/electra_base.yaml` | ELECTRA discriminator model |
+| BERTweet | `configs/bertweet_base.yaml` | specific tweet BERT model |
 
 ## ⚙️ Configuration
 
@@ -192,7 +197,7 @@ results = comparator.load_experiment_results(['bert_base', 'roberta_base'])
 
 ## 📝 License
 
-[Your License Here]
+None (for now)
 
 ## 📊 Experimental Results
 
@@ -250,7 +255,7 @@ If you use this framework in your research, please cite:
 ```bibtex
 @misc{bertsemeval,
   title={BERTSemEval: Multi-Model Sentiment Analysis Framework},
-  author={Your Name},
+  author={João Pedro Flausino de Lima},
   year={2024}
 }
 ```
