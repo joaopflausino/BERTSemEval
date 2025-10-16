@@ -18,7 +18,7 @@ Links para os repositórios utilizados como base
 ## **2. Configuração do Conjunto de Dados**
 
 * **Dados de Treinamento**: Conjuntos de dados SemEval de 2013 a 2016 (`dataset/train/`)
-* **Dados de Validação/Teste**: SemEval 2017, Subtarefa A, Inglês (`dataset/test/SemEval2017-task4-dev.subtask-A.english.txt`)
+* **Dados de Validação/Teste**: SemEval 2017, Subtarefa A, Inglês (`dataset/test/SemEval2017-task4-test.subtask-A.english.txt`)
 * **Máximo de Tokens por Amostra**: 128
 
 ---
