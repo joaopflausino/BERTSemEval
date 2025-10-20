@@ -35,7 +35,7 @@ cd BERTSemEval
 pip install -r requirements.txt
 ```
 
-### ROCm Setup for AMD GPUs
+### ROCm Setup for AMD GPUs (Optional)
 
 If using AMD GPUs, ensure ROCm is properly installed:
 
