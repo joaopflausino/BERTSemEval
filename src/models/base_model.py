@@ -3,12 +3,13 @@ import torch.nn as nn
 from abc import ABC, abstractmethod
 
 class BaseTransformerModel(nn.Module, ABC):
-    def __init__(self, model_name: str, num_labels: int = 3, dropout_prob: float = 0.1):
+    def __init__(self, model_name: str, num_labels: int = 3, dropout_prob: float = 0.1, class_weights=None):
         super(BaseTransformerModel, self).__init__()
         self.model_name = model_name
         self.num_labels = num_labels
         self.dropout_prob = dropout_prob
-        
+        self.class_weights = class_weights
+
         self.transformer = self._load_transformer()
         self.dropout = nn.Dropout(dropout_prob)
         self.classifier = self._build_classifier()

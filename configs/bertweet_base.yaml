@@ -10,15 +10,15 @@ model:
   dropout_prob: 0.3
 
 data:
-  train_path: "dataset/train"
-  eval_path: "dataset/test/SemEval2017-task4-test.subtask-A.english.txt"
+  train_path: "dataset/processed/bert_train.csv"
+  eval_path: "dataset/processed/bert_validation.csv"
   max_length: 128
 
 training:
   batch_size: 16
   learning_rate: 2e-5
   weight_decay: 0.01
-  num_epochs: 3
+  num_epochs: 10
   warmup_proportion: 0.1
   max_grad_norm: 1.0
 

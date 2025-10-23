@@ -7,20 +7,22 @@ model:
   type: "distilbert"
   name: "distilbert-base-uncased"
   num_labels: 3
-  dropout_prob: 0.3
+  dropout_prob: 0.43505708798138387
 
 data:
-  train_path: "dataset/train"
-  eval_path: "dataset/test/SemEval2017-task4-test.subtask-A.english.txt"
+  train_path: "dataset/processed/bert_train.csv"
+  eval_path: "dataset/processed/bert_validation.csv"
   max_length: 128
 
 training:
-  batch_size: 16
-  learning_rate: 1e-5
-  weight_decay: 0.08
+  batch_size: 32
+  learning_rate: 3.5107501500933156e-05
+  weight_decay: 0.08811917880382125
   num_epochs: 10
-  warmup_proportion: 0.1
+  warmup_proportion: 0.11270682301332736
   max_grad_norm: 1.0
+  use_class_weights: false
+  class_weight_method: "balanced"  # Options: "balanced", "inverse_freq"
   early_stopping:
     patience: 3
     min_delta: 0.0005

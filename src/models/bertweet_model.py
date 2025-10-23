@@ -4,9 +4,10 @@ from transformers import AutoModel
 
 class BertTweetSentimentClassifier(nn.Module):
     
-    def __init__(self, bertweet_model_name="vinai/bertweet-base", num_labels=3, dropout_prob=0.3):
+    def __init__(self, bertweet_model_name="vinai/bertweet-base", num_labels=3, dropout_prob=0.3, class_weights=None):
 
         super(BertTweetSentimentClassifier, self).__init__()
+        self.class_weights = class_weights
         
         self.bertweet = AutoModel.from_pretrained(bertweet_model_name)
         self.dropout = nn.Dropout(0.4)
@@ -50,7 +51,12 @@ class BertTweetSentimentClassifier(nn.Module):
         logits = self.classifier(x)
         
         if labels is not None:
-            loss_fct = nn.CrossEntropyLoss()
+            if self.class_weights is not None:
+                device = logits.device
+                weights = self.class_weights.to(device)
+                loss_fct = nn.CrossEntropyLoss(weight=weights)
+            else:
+                loss_fct = nn.CrossEntropyLoss()
             loss = loss_fct(logits, labels)
             return loss, logits
         
@@ -78,3 +84,14 @@ class BertTweetSentimentClassifier(nn.Module):
         """Unfreeze all BERTweet layers"""
         for param in self.bertweet.parameters():
             param.requires_grad = True
+
+    def get_model_info(self):
+        """Return model information for comparison"""
+        return {
+            'model_name': 'vinai/bertweet-base',
+            'num_parameters': sum(p.numel() for p in self.parameters()),
+            'trainable_parameters': sum(p.numel() for p in self.parameters() if p.requires_grad),
+            'hidden_size': self.bertweet.config.hidden_size,
+            'num_layers': self.bertweet.config.num_hidden_layers,
+            'num_attention_heads': self.bertweet.config.num_attention_heads
+        }

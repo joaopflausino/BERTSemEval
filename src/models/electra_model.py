@@ -4,8 +4,8 @@ from transformers import AutoModel
 from .base_model import BaseTransformerModel
 
 class ElectraSentimentClassifier(BaseTransformerModel):
-    def __init__(self, model_name: str = "google/electra-base-discriminator", num_labels: int = 3, dropout_prob: float = 0.1):
-        super(ElectraSentimentClassifier, self).__init__(model_name, num_labels, dropout_prob)
+    def __init__(self, model_name: str = "google/electra-base-discriminator", num_labels: int = 3, dropout_prob: float = 0.1, class_weights=None):
+        super(ElectraSentimentClassifier, self).__init__(model_name, num_labels, dropout_prob, class_weights)
         
     def _load_transformer(self):
         return AutoModel.from_pretrained(self.model_name)
@@ -26,15 +26,19 @@ class ElectraSentimentClassifier(BaseTransformerModel):
             token_type_ids=token_type_ids
         )
         
-        # ELECTRA doesn't have pooler_output, use CLS token
         sequence_output = outputs.last_hidden_state
-        cls_output = sequence_output[:, 0, :]  # Take CLS token
-        
+        cls_output = sequence_output[:, 0, :]
+
         cls_output = self.dropout(cls_output)
         logits = self.classifier(cls_output)
         
         if labels is not None:
-            loss_fct = nn.CrossEntropyLoss()
+            if self.class_weights is not None:
+                device = logits.device
+                weights = self.class_weights.to(device)
+                loss_fct = nn.CrossEntropyLoss(weight=weights)
+            else:
+                loss_fct = nn.CrossEntropyLoss()
             loss = loss_fct(logits, labels)
             return loss, logits
             
