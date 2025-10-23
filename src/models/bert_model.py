@@ -4,8 +4,8 @@ from transformers import AutoModel, AutoConfig
 from .base_model import BaseTransformerModel
 
 class BertSentimentClassifier(BaseTransformerModel):
-    def __init__(self, model_name: str = "bert-base-uncased", num_labels: int = 3, dropout_prob: float = 0.1):
-        super(BertSentimentClassifier, self).__init__(model_name, num_labels, dropout_prob)
+    def __init__(self, model_name: str = "bert-base-uncased", num_labels: int = 3, dropout_prob: float = 0.1, class_weights=None):
+        super(BertSentimentClassifier, self).__init__(model_name, num_labels, dropout_prob, class_weights)
         
     def _load_transformer(self):
         return AutoModel.from_pretrained(self.model_name)
@@ -38,7 +38,12 @@ class BertSentimentClassifier(BaseTransformerModel):
         logits = self.classifier(pooled_output)
         
         if labels is not None:
-            loss_fct = nn.CrossEntropyLoss()
+            if self.class_weights is not None:
+                device = logits.device
+                weights = self.class_weights.to(device)
+                loss_fct = nn.CrossEntropyLoss(weight=weights)
+            else:
+                loss_fct = nn.CrossEntropyLoss()
             loss = loss_fct(logits, labels)
             return loss, logits
             

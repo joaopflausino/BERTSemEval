@@ -198,7 +198,6 @@ $RECYCLE.BIN/
 
 # Datasets
 dataset/
-data/
 datasets/
 *.csv
 *.tsv

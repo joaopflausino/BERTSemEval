@@ -41,18 +41,18 @@ def main():
     print(f"Model: {config['model']['name']}")
     print(f"Description: {config['experiment']['description']}")
     
-    # Create model
-    print("\nInitializing model...")
-    model = create_model(config)
-    print(f"Model created: {model.__class__.__name__}")
-    print(f"Model info: {model.get_model_info()}")
-    
     # Create data loaders
     print("\nPreparing data...")
-    train_dataloader, eval_dataloader, tokenizer = create_data_loaders(config)
+    train_dataloader, eval_dataloader, tokenizer, train_labels, class_weights = create_data_loaders(config)
     print(f"Training samples: {len(train_dataloader.dataset)}")
     print(f"Evaluation samples: {len(eval_dataloader.dataset)}")
-    
+
+    # Create model with class weights
+    print("\nInitializing model...")
+    model = create_model(config, class_weights)
+    print(f"Model created: {model.__class__.__name__}")
+    print(f"Model info: {model.get_model_info()}")
+
     # Initialize trainer
     print("\nInitializing trainer...")
     trainer = ModelTrainer(

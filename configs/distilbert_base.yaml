@@ -10,8 +10,8 @@ model:
   dropout_prob: 0.1
 
 data:
-  train_path: "dataset/train"
-  eval_path: "dataset/test/SemEval2017-task4-test.subtask-A.english.txt"
+  train_path: "dataset/processed/bert_train.csv"
+  eval_path: "dataset/processed/bert_validation.csv"
   max_length: 128
 
 training:

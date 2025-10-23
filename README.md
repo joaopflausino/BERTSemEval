@@ -121,7 +121,7 @@ model:
 training:
   batch_size: 16
   learning_rate: 2e-5
-  num_epochs: 3
+  num_epochs: 10
 ```
 
 ## 📈 Model Comparison Features
@@ -205,48 +205,51 @@ None (for now)
 
 | Model | Parameters | Best F1-Score | Validation Accuracy | Training Duration | GPU Memory (GB) |
 |-------|------------|---------------|-------------------|------------------|----------------|
-| **BERT Base** | 109.8M | 0.6963 | 69.63% | 28:33 | 1.73 |
-| **BERT Base (Regularized)** | 109.8M | 0.6979 | 69.83% | 47:55 | 1.73 |
-| **RoBERTa Base** | 124.9M | 0.7106 | 71.06% | 29:17 | 1.96 |
-| **RoBERTa Base (Regularized)** | 124.9M | 0.7211 | 72.14% | 59:20 | 1.96 |
-| **DistilBERT Base** | 66.7M | 0.6893 | 68.99% | 19:31 | 1.06 |
-| **DistilBERT Base (Regularized)** | 66.7M | 0.7000 | 70.03% | 30:14 | 1.08 |
-| **ELECTRA Base** | 109.2M | 0.7146 | 71.57% | 27:51 | 1.72 |
-| **ELECTRA Base (Regularized)** | 109.2M | 0.7172 | 71.78% | 37:18 | 1.72 |
-| **BERTweet Base (Regularized)** | 135.2M | 0.7260 | 72.65% | 40:13 | 2.10 |
+| **BERT Base (Regularized)** | 109.8M | 0.7317 | 73.17% | 00:34:06 | 1.77 |
+| **RoBERTa Base (Regularized)** | 124.9M | 0.7313 | 73.13% | 00:41:30 | 2.00 |
+| **DistilBERT Base (Regularized)** | 66.7M | 0.7190 | 71.90% | 00:17:49 | 1.09 |
+| **ELECTRA Base (Regularized)** | 109.2M | 0.7406 | 74.06% | 00:33:07 | 1.76 |
+| **BERTweet Base (Regularized)** | 135.2M | 0.7483 | 74.83% | 00:35:11 | 2.15 |
 
 ### Key Findings
 
 **🏆 Top Performing Models:**
-1. **BERTweet Base (Regularized)**: 72.60% F1-score - Best overall performance
-2. **RoBERTa Base (Regularized)**: 72.11% F1-score - Strong second place
-3. **ELECTRA Base (Regularized)**: 71.72% F1-score - Excellent efficiency
+1. **BERTweet Base**: 74.83% F1-score - Best overall performance, specialized for Twitter data
+2. **ELECTRA Base**: 74.06% F1-score - Strong performance with efficient architecture
+3. **BERT Base**: 73.17% F1-score - Solid baseline performance
+4. **RoBERTa Base**: 73.13% F1-score - Competitive with BERT
 
 **⚡ Efficiency Leaders:**
-- **DistilBERT Base**: Fastest training (19:31) with lowest memory usage (1.06 GB)
-- **ELECTRA Base**: Good balance of performance (71.46% F1) and speed (27:51)
+- **DistilBERT Base**: Fastest training (17:49) with lowest memory usage (1.09 GB)
+- **ELECTRA Base**: Best performance-to-speed ratio (74.06% F1 in 33:07)
 
-**🔧 Regularization Impact:**
-- All regularized models showed improved performance over their base versions
-- Average improvement: +1.2% F1-score across all models
-- Regularization particularly effective for larger models (BERT, RoBERTa)
+**🎯 Model Insights:**
+- BERTweet's Twitter-specific pretraining provides 0.77% advantage over ELECTRA
+- ELECTRA significantly outperforms BERT/RoBERTa despite similar parameter counts
+- DistilBERT achieves 71.90% F1 with only 66.7M parameters (best efficiency)
+- GPU memory usage scales predictably with model size (1.09 GB to 2.15 GB)
 
 **💾 Resource Analysis:**
-- Parameter count correlates weakly with performance
-- DistilBERT achieves 68.99% F1 with only 66.7M parameters (best efficiency)
-- GPU memory usage scales predictably with model size
+- Training times range from 17:49 (DistilBERT) to 41:30 (RoBERTa)
+- All models trained with regularization techniques for optimal performance
+- Memory-efficient training possible on consumer GPUs (< 2.2 GB VRAM)
 
 ### Per-Class Performance (Best Models)
 
-**BERTweet Base (Regularized) - Best Overall:**
-- Negative: 74.4% F1, 78.8% Recall
-- Neutral: 71.9% F1, 69.6% Precision  
-- Positive: 71.5% F1, 69.9% Recall
+**BERTweet Base - Best Overall (Epoch 1):**
+- Negative: 68.61% F1, 67.66% Recall, 69.59% Precision
+- Neutral: 74.18% F1, 76.88% Recall, 71.66% Precision
+- Positive: 78.02% F1, 75.24% Recall, 81.02% Precision
 
-**RoBERTa Base (Regularized) - Runner-up:**
-- Negative: 73.9% F1, 76.7% Recall
-- Neutral: 71.4% F1, 68.4% Recall
-- Positive: 70.8% F1, 72.4% Recall
+**ELECTRA Base - Runner-up (Epoch 1):**
+- Negative: 68.60% F1, 71.93% Recall, 65.57% Precision
+- Neutral: 73.23% F1, 74.44% Recall, 72.05% Precision
+- Positive: 77.16% F1, 74.24% Recall, 80.32% Precision
+
+**BERT Base - Strong Baseline (Epoch 1):**
+- Negative: 65.48% F1, 65.39% Recall, 65.56% Precision
+- Neutral: 73.52% F1, 77.78% Recall, 69.70% Precision
+- Positive: 75.80% F1, 70.88% Recall, 81.46% Precision
 
 ## 📚 Citation
 
