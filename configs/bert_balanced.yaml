@@ -1,0 +1,45 @@
+experiment:
+  name: "bert_balanced"
+  description: "Balanced BERT configuration following best practices for sentiment analysis"
+  seed: 42
+
+model:
+  type: "bert"
+  name: "bert-base-uncased"
+  num_labels: 3
+  dropout_prob: 0.2  # Moderate dropout
+  freeze_layers: 3   # Freeze first 3 layers (half of BERT)
+
+data:
+  train_path: "dataset/processed/bert_train.csv"
+  eval_path: "dataset/processed/bert_validation.csv"
+  max_length: 128
+
+training:
+  batch_size: 24
+  learning_rate: 2e-5  # Standard BERT learning rate
+  weight_decay: 0.01
+  num_epochs: 12
+  warmup_proportion: 0.1
+  max_grad_norm: 1.0
+
+  # Use class weights
+  use_class_weights: true
+  class_weight_method: "balanced"
+
+  # Label smoothing for better generalization
+  loss_type: "label_smoothing"
+  label_smoothing: 0.1
+
+  # Early stopping
+  early_stopping:
+    patience: 4
+    min_delta: 0.001
+
+  # Mild augmentation
+  use_augmentation: true
+  augmentation_prob: 0.2
+
+output:
+  output_dir: "experiments/bert_balanced"
+  save_best_only: true

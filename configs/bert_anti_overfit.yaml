@@ -1,0 +1,46 @@
+experiment:
+  name: "bert_anti_overfit"
+  description: "BERT optimized to combat overfitting - for when validation loss >> training loss"
+  seed: 42
+
+model:
+  type: "bert"
+  name: "bert-base-uncased"
+  num_labels: 3
+  dropout_prob: 0.4  # High dropout to prevent overfitting
+  freeze_layers: 6   # Freeze first 6 layers (keep only top 6 trainable)
+
+data:
+  train_path: "dataset/processed/bert_train.csv"
+  eval_path: "dataset/processed/bert_validation.csv"
+  max_length: 128
+
+training:
+  batch_size: 16
+  learning_rate: 1e-5  # Very low LR to prevent rapid overfitting
+  weight_decay: 0.1    # Strong weight decay
+  num_epochs: 15
+  warmup_proportion: 0.15
+  max_grad_norm: 0.5   # Aggressive gradient clipping
+
+  # Use class weights if imbalanced
+  use_class_weights: true
+  class_weight_method: "balanced"
+
+  # Advanced loss (choose one)
+  loss_type: "focal"  # Options: "cross_entropy", "focal", "label_smoothing", "combined"
+  focal_gamma: 2.0    # For focal loss
+  label_smoothing: 0.1  # For label smoothing
+
+  # Early stopping - critical for overfitting
+  early_stopping:
+    patience: 3
+    min_delta: 0.001
+
+  # Data augmentation
+  use_augmentation: true
+  augmentation_prob: 0.3  # 30% of training samples will be augmented
+
+output:
+  output_dir: "experiments/bert_anti_overfit"
+  save_best_only: true
